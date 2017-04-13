@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void insert(UserDto user) {
-        String key=user.getId();
+        String key=user.getUserName();
         String value= JSON.toJSONString(user);
         redisTemplate.execute(new RedisCallback<Long>() {
             @Override
@@ -56,11 +56,11 @@ public class UserDaoImpl implements UserDao {
      * @return
      */
     @Override
-    public UserDto selectById(String id) {
+    public UserDto selectById(String userName) {
         return redisTemplate.execute(new RedisCallback<UserDto>() {
             @Override
             public UserDto doInRedis(RedisConnection connection) throws DataAccessException {
-                byte[] value= connection.get(id.getBytes());
+                byte[] value= connection.get(userName.getBytes());
                 if(value.length>0){
                     return JSON.parseObject(value,UserDto.class);
                 }

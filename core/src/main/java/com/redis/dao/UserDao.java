@@ -26,7 +26,7 @@ public interface UserDao {
      * @param id
      * @return
      */
-    UserDto selectById(String id);
+    UserDto selectById(String userName);
 
 
 }

@@ -6,6 +6,7 @@ package com.controller;
 
 import com.ehcache.EhcacheService;
 import com.redis.UserCacheService;
+import com.redis.dao.UserDao;
 import com.socket.SocketServerHandler;
 import com.utils.QrUtil;
 import dto.UserDto;
@@ -41,6 +42,8 @@ public class LoginController {
     private EhcacheService ehcacheService;
     @Resource(name="userCacheService")
     private UserCacheService userCacheService;
+    @Resource(name="userDao")
+    private UserDao userDao;
 
     @Resource(name="acceptCache")
     private Cache cache;
@@ -62,9 +65,17 @@ public class LoginController {
         if(user==null|| StringUtils.isEmpty(clientId)){
             return "error";
         }
-        //执行登录  浏览器跳转
-        socketServerHandler.login(clientId,user);
-        return "success";
+        //验证用户名和密码
+        UserDto u= userDao.selectById(user.getUserName());
+        if(u!=null&&u.getPassword().equals(user.getPassword())){
+            logger.info("当前客户验证成功开始执行登录。");
+            //执行登录  浏览器跳转
+            socketServerHandler.login(clientId,user);
+            return "success";
+        }
+
+        return "error";
+
     }
 
 
