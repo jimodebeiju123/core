@@ -32,9 +32,9 @@ public class QrUtil {
             int qrcodeWidth = 300;
             int qrcodeHeight = 300;
             String qrcodeFormat = "png";
-            HashMap<EncodeHintType, String> hints = new HashMap<>();
+            HashMap<EncodeHintType, Object> hints = new HashMap<>();
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L.toString());
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
             BitMatrix bitMatrix = new MultiFormatWriter().
                     encode(msg, BarcodeFormat.QR_CODE, qrcodeWidth, qrcodeHeight, hints);
             MatrixToImageWriter.writeToStream(bitMatrix,qrcodeFormat,outputStream);
