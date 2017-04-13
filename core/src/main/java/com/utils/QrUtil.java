@@ -39,7 +39,7 @@ public class QrUtil {
                     encode(msg, BarcodeFormat.QR_CODE, qrcodeWidth, qrcodeHeight, hints);
             MatrixToImageWriter.writeToStream(bitMatrix,qrcodeFormat,outputStream);
         } catch (Exception e) {
-            logger.error("创建二维码失败！");
+            logger.error("创建二维码失败！！！");
         }
     }
 }
