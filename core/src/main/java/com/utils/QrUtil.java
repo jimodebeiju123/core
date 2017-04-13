@@ -34,12 +34,12 @@ public class QrUtil {
             String qrcodeFormat = "png";
             HashMap<EncodeHintType, String> hints = new HashMap<>();
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q.toString());
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L.toString());
             BitMatrix bitMatrix = new MultiFormatWriter().
                     encode(msg, BarcodeFormat.QR_CODE, qrcodeWidth, qrcodeHeight, hints);
             MatrixToImageWriter.writeToStream(bitMatrix,qrcodeFormat,outputStream);
         } catch (Exception e) {
-            logger.error("创建二维码失败！");
+            logger.error("创建二维码失败d！");
         }
     }
 }
