@@ -14,7 +14,7 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/socket/socket.io.js"></script>
     <script type="text/javascript">
-        var socket = io.connect('http://localhost:8089');
+        var socket = io.connect('http://119.23.243.79:8085');
         socket.emit('login', function () {
             $("#qrImg").html('<img id="img" alt="登录二维码" src="<%=request.getContextPath()%>/getQr.html"/>')
         });

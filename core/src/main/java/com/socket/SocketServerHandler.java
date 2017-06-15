@@ -33,7 +33,7 @@ public class SocketServerHandler {
     private Logger logger= LoggerFactory.getLogger(SocketServerHandler.class);
     private SocketIOServer server;
     private String hostName="localhost";
-    private int port=8080;
+    private int port=8085;
     private String eventName="liaotian";
 
     @Resource(name="acceptCache")

@@ -61,7 +61,7 @@ public class LoginController {
 
     @RequestMapping("/dologin")
     @ResponseBody
-    public  String    doLogin(String clientId, UserDto user){
+    public  String    doLogin(String clientId, UserDto user,HttpServletRequest request){
         if(user==null|| StringUtils.isEmpty(clientId)){
             return "error";
         }
@@ -85,7 +85,7 @@ public class LoginController {
         try {
             String uuid= (String) cache.get("login").getObjectValue();
             out = response.getOutputStream();
-            QrUtil.createQr("http://192.168.123.170:8080/core/gologinbywx.html?clientId="+uuid,out);
+            QrUtil.createQr("http://119.23.243.79:8088/core/gologinbywx.html?clientId="+uuid,out);
             out.flush();
         } catch (FileNotFoundException e) {
             logger.error("文件读取失败,文件不存在",e);
