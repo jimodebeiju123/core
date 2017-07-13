@@ -3,7 +3,6 @@ package com.redis.dao;
 import dto.UserDto;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
@@ -85,17 +84,17 @@ public class UserDaoImplTest {
     @Test
     public void test444() throws  Exception{
 
-     //   WordConfTools.set("dic.path", "classpath:dic/dic.txt");
-      //  DictionaryFactory.reload();//更改词典路径之后，重新加载词典
+        WordConfTools.set("dic.path", "classpath:dic/dic.txt");
+        DictionaryFactory.reload();//更改词典路径之后，重新加载词典
        // 1、构造一个word分析器ChineseWordAnalyzer
-        Analyzer analyzer = new  ChineseWordAnalyzer();
+        Analyzer analyzer = new  ChineseWordAnalyzer( SegmentationFactory.getSegmentation(SegmentationAlgorithm.MaxNgramScore));
         //如果需要使用特定的分词算法，可通过构造函数来指定：
       //  Analyzer analyzer = new ChineseWordAnalyzer(SegmentationAlgorithm.FullSegmentation);
         //如不指定，默认使用双向最大匹配算法：SegmentationAlgorithm.BidirectionalMaximumMatching
         //可用的分词算法参见枚举类：SegmentationAlgorithm
 
         //2、利用word分析器切分文本
-        TokenStream tokenStream = analyzer.tokenStream("myfile", "有两个属性可选：存储和索引。通过,存储属性你可以控制是否对这个Field进行存储");
+        TokenStream tokenStream = analyzer.tokenStream("myfile", "渤海银行股份有限公司武汉分行");
         //准备消费
         tokenStream.reset();
         //开始消费
@@ -118,9 +117,14 @@ public class UserDaoImplTest {
         IndexWriter iwriter = new IndexWriter(directory, config);
         
         Document doc = new Document();
-        String text = "有两个属性可选：存储和索引。通过,存储属性你可以控制是否对这个Field进行存储";
+        String text = "渤海银行股份有限公司武汉分行";
         doc.add(new Field("myfile", text, TextField.TYPE_STORED));
         iwriter.addDocument(doc);
+
+        Document doc1 = new Document();
+        String text1 = "有两个属性可选：存储和索引。通过,存储属性你可以控制是否对这个Field进行存储";
+        doc1.add(new Field("myfile", text1, TextField.TYPE_STORED));
+        iwriter.addDocument(doc1);
         iwriter.close();
 
         // Now search the index:
@@ -128,7 +132,7 @@ public class UserDaoImplTest {
         IndexSearcher isearcher = new IndexSearcher(ireader);
         // Parse a simple query that searches for "text":
         QueryParser parser = new QueryParser("myfile", analyzer);
-        Query query = parser.parse("通过");
+        Query query = parser.parse("渤海银行");
         ScoreDoc[] hits = isearcher.search(query, Integer.MAX_VALUE).scoreDocs;
         System.out.println("检索到的词："+hits.length);
         // Iterate through the results:
